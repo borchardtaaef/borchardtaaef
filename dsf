@@ -1,0 +1,41 @@
+            IDbConnection Conn = GetConnection(DbServerType, strConn);
+            IDataReader myDr;
+			string _countf=keyfield;
+			string _pagesize=oe.GetBaseClassList(webctls[3],"Value");
+			_pagesize=(_pagesize==""?"50":_pagesize);
+ 
+			if(movWhereToOuter==true)
+			{
+				 WhereStatements=WhereStatements.Replace("where 1=1","");
+				if(OuterWhereStatements.IndexOf("{0}")==-1)
+				{
+					OuterWhereStatements+=" "+WhereStatements;
+				}
+				else
+				{
+					OuterWhereStatements=string.Format(OuterWhereStatements,WhereStatements);
+				}
+				WhereStatements="";
+			}
+		    string groupf="",resultf="",declare="",intolist= "RecordCount";
+			if(GroupFuncs!=null)
+			{
+				for(int i=0;i<GroupFuncs.Count;i++)
+				{
+					string[] rv=(string[])GroupFuncs[i];
+                    if (DbServerType.ToLower() == "dm8")
+                    {
+                        intolist += "," + rv[1] ;
+                        groupf += "," + rv[0];
+                        resultf += "," + rv[1] + " " + rv[1];
+                        declare += " " + rv[1] + " " + rv[2] + " ";
+                    }
+                    else
+                    {
+                        groupf += ",@" + rv[1] + "=" + rv[0];
+                        resultf += ",@" + rv[1] + " " + rv[1];
+                        declare += " declare @" + rv[1] + " " + rv[2] + " ";
+                    }
+                }
+			}
+	
