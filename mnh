@@ -1,0 +1,18 @@
+public ContentInfo getContentDescriptor( 
+    ContentInfo inContentInfo, 
+    BillingInfo inBillingInfo) 
+  throws ContentException 
+  { 
+    // Update content download descriptor 
+    return inContentInfo; 
+  } 
+ 
+  public ContentInfo getContentBinary( 
+    ContentInfo inContentInfo, 
+    BillingInfo inBillingInfo) 
+  throws ContentException 
+  { 
+    // Update content binary, binary MIME type 
+    return inContentInfo; 
+  } 
+} 
