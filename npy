@@ -1,0 +1,35 @@
+# -*- coding:utf-8 -*-
+from __future__ import unicode_literals
+from wxpy import *
+from requests import get
+from requests import post
+from platform import system
+from os import chdir
+from random import choice
+from threading import Thread
+import configparser
+import time
+import sys
+
+
+# 获取每日励志精句
+def get_message():
+    r = get("http://open.iciba.com/dsapi/")
+    note = r.json()['note']
+    content = r.json()['content']
+    return note,content
+
+
+# 发送消息给她
+def send_message(your_message):
+    try:
+        # 对方的微信名称
+        my_friend = bot.friends().search(my_lady_wechat_name)[0]
+
+        # 发送消息给对方
+        my_friend.send(your_message)
+    except:
+
+        # 出问题时，发送信息到文件传输助手
+        bot.file_helper.send(u"守护女友出问题了，赶紧去看看咋回事~")
+
