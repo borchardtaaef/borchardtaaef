@@ -1,0 +1,17 @@
+    # 你的微信朋友圈数据地址，注意不要泄露给其他人
+    # 在调试过程中，可以直接给target_url赋值
+    target_url = input_url()
+
+    # 模拟浏览指定网页
+    driver.get(target_url)
+
+    for i in range(0, 10000):
+
+   
+        # 等待 下一月控件 出现
+        next_month = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.next-month')))
+
+        # 等待 下一月控件 可见才能模拟点击
+        while(True):
+            if(next_month.is_displayed() == True):
+                break
