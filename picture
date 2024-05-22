@@ -1,0 +1,13 @@
+import requests
+
+url = 'http://example.com/image-gallery'
+response = requests.get(url)
+
+image_urls = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg', 'http://example.com/image3.jpg']
+
+for image_url in image_urls:
+    image_response = requests.get(image_url)
+    with open(image_url.split('/')[-1], 'wb') as file:
+        file.write(image_response.content)
+
+
