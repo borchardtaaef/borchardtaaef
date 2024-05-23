@@ -1,0 +1,102 @@
+   # 生成一个网页
+    with open('data/使用人脸的微信好友头像拼接图.html', 'w', encoding='utf-8') as f:
+        data = '''
+            <!DOCTYPE html>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+                  <meta charset="utf-8" /> 
+                  <title>使用人脸的微信好友头像拼接图</title> 
+            </head>
+            <body>
+                <p><font size=4px><strong>描述内容</strong></font></p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img src="使用人脸的拼接.jpg" />
+            </body>
+            </html>
+        '''
+
+        data = data.replace('描述内容','在{}个好友中，有{}个好友使用真实的人脸作为头像'.format(len(friends), count_face_image))
+        f.write(data)
+
+
+# 特殊好友分析
+def analyze_special_friends():
+
+    # 星标好友(很重要的人), 不让他看我的朋友圈的好友, 不看他朋友圈的好友, 消息置顶好友, 陌生人
+    star_friends, hide_my_post_friends, hide_his_post_friends, sticky_on_top_friends, stranger_friends = 0, 0, 0, 0, 0
+
+    for user in friends:
+
+
+        # 星标好友为1,为0表示非星标,不存在星标选项的为陌生人
+        if('StarFriend' in (user.raw).keys()):
+            if((user.raw)['StarFriend'] == 1):
+                star_friends += 1
+        else:
+            stranger_friends += 1
+
+        # 好友类型及权限：1和3好友，259和33027不让他看我的朋友圈，65539和65537和66051不看他的朋友圈，65795两项设置全禁止, 73731陌生人
+        if((user.raw)['ContactFlag'] in [259, 33027, 65795]):
+            hide_my_post_friends += 1
+        if ((user.raw)['ContactFlag'] in [66051, 65537, 65539, 65795]):
+            hide_his_post_friends += 1
+
+        # 消息置顶好友为2051
+        if ((user.raw)['ContactFlag'] in [2051]):
+            sticky_on_top_friends += 1
+
+        # 陌生人
+        if ((user.raw)['ContactFlag'] in [73731]):
+            stranger_friends += 1
+
+
+    bar = Bar()
+    bar.add_xaxis(['星标', '不让他看我朋友圈', '不看他朋友圈', '消息置顶', '陌生人'])
+    bar.add_yaxis('特殊好友分析', [star_friends, hide_my_post_friends, hide_his_post_friends, sticky_on_top_friends, stranger_friends])
+    bar.render('data/特殊好友分析.html')
+
+
+
+# 共同所在群聊成员分析
+def group_common_in():
+
+    # 获取所有活跃的群聊
+    groups = bot.groups()
+
+    # 每个好友与你相同的群聊个数
+    dict_common_in = {}
+
+    # 遍历所有好友，第0个为你自己，所以去掉
+    for x in friends[1:]:
+        # 依次在每个群聊中搜索
+        for y in groups:
+            # x在y中
+            if(x in y):
+                # 获取微信名称
+                name = x.nick_name
+                # 判断是否有备注，有的话就使用备注
+                if(x.remark_name and x.remark_name != ''):
+                    name = x.remark_name
+
+                # 增加计数
+                if(name in dict_common_in.keys()):
+                    dict_common_in[name] += 1
+                else:
+                    dict_common_in[name] = 1
+
+    # 从dict_common_in结果中取出前n大个数据
+    n = 0
+
+    if(len(dict_common_in) > 5):
+        n = 6
+    elif(len(dict_common_in) > 4):
+        n = 5
+    elif(len(dict_common_in) > 3):
+        n = 4
+    elif(len(dict_common_in) > 2):
+        n = 3
+    elif(len(dict_common_in) > 1):
+        n = 2
+    elif(len(dict_common_in) > 0):
+        n = 1
