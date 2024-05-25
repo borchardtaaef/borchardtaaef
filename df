@@ -1,0 +1,25 @@
+
+ 
+# 使用BeautifulSoup解析页面内容
+soup = BeautifulSoup(html, 'html.parser')
+ 
+# 提取热搜数据
+hot_searches = []
+for item in soup.find_all('div', {'class': 'c-single-text-ellipsis'}):
+    hot_searches.append(item.text)
+ 
+# 设置中文字体
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+ 
+
+ 
+# 调整坐标轴刻度
+plt.xticks(range(1, len(hot_searches)+1))
+ 
+# 调整条形图之间的间隔
+plt.subplots_adjust(hspace=0.8, wspace=0.5)
+ 
+# 显示图形
+plt.tight_layout()
+plt.show()
