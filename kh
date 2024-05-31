@@ -1,0 +1,24 @@
+<!-- 搜索框及logo -->
+<div id="search_box">
+  <div class="search">
+    <div class="logo">
+      <img src="img/logo2.png">
+      <img src="img/logo3.png">
+    </div>
+    <!-- 搜索框 -->
+    <div class="search_key">
+      <form action="">
+        <input class="search_put" type="text" placeholder="输入搜索内容">
+        <input class="btn" type="button" value="搜索">
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 导航栏部分 -->
+<div id="nav_box">
+  <div class="nav_content">
+    <div class="bookclass">图书分类</div>
+    <ul class="nav navbar-nav navbar-left">
+      <li class="nav_active"><a href="reader_main.html" class="white">首页</a></li>
+      <li><a href="ho
