@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>首页面</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<link rel="stylesheet" href="css/weui.css" />
+		<!-- 自定义的css -->
+		<link rel="stylesheet" href="css/demo.css" />
+		<!-- 引入弹窗插件 -->
+		<link rel="stylesheet" href="jquery-confirm/jquery-confirm.css">
+	</head>
+	<body ontouchstart>
+		<?php
+		//通过session获取登录信息
+		session_start();
+		$data=$_SESSION['login_status'];
+		if($data==null){
+			header("Refresh:1,Url=del.php");
+		}
+	
+	
+		?>
+	<div style="margin: 10px;">
+		<div class="weui-cells">
+		    <div class="weui-cell">
+				<!-- 放置头像 -->
+		        <div class="weui-cell__hd">
+		            <div class="weui-uploader">
+		                <div class="weui-uploader__bd">
+		                    <ul class="weui-uploader__files" id="uploaderFiles">
+								<!-- 默认头像，实际地址从数据库用户表中获取 -->
+								<li class="weui-uploader__file" 
+								style="background-image: url(./images/me.png);">
+								</li>
+							</ul>  
+		                </div>
+		            </div>
+		        </div>
+		        <div class="weui-cell__bd" style="margin-left: 10px;">
+		            <span><?php echo $data['name']?></span>
+		            <div><?php echo $data['tel']?></div>
+		        </div> 
+				<div class="weui-cell__ft">
+					<div class="weui-cell" style="padding: 0;">
+				    <div class="weui-cell__hd">
+						<!-- 点击上传头像，指定接收类型为image -->
+						<div class="weui-uploader__input-box">
+				        <input id="uploaderInput" class="weui-uploader__input" type="file" 
+						accept="image/*" onchange="uploadimg(this)"/>
+						</div>
+					</div>
+					<div class="weui-cell__ft">
+						<a style="color: red;" href="loginOut.php">退出</a>
+					</div>
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div>
+		<div class="weui-tabbar" style="width: 100%; position: fixed; bottom: 0;">
+			<div class="weui-tabbar__item">
+				<div tyle="display: inline-block; position: relative;">
+					<img src="./images/home.png" alt="" class="weui-tabbar__icon">
+				</div>
+				<p class="weui-tabbar__label"><a href="houta.php">首页</a></p>
+			</div>
+			<div class="weui-tabbar__item">
+				<img src="./images/type.png" alt="" class="weui-tabbar__icon">
+				<p class="weui-tabbar__label"><a href="cs.php">分类</a></p>
+			</div>
+			<div class="weui-tabbar__item">
+				<div style="display: inline-block; position: relative;">
+					<img src="./images/car.png" alt="" class="weui-tabbar__icon">
+				</div>
+				<p class="weui-tabbar__label">购物车</p>
+			</div>
+			<div class="weui-tabbar__item weui-bar__item_on">
+				<img src="./images/me.png" alt="" class="weui-tabbar__icon">
+				<p class="weui-tabbar__label">我</p>
+			</div>
+		</div>
+	<!-- 引入jQuery和弹窗插件 -->
+	<script src="js/jquery-3.6.1.min.js"></script>
+	<script type="text/javascript">
+	function uploadimg(file) {console.log(file.files);
+		//选择图片上传
+		if (file.files && file.files[0]) {
+			//创建文件读取对象
+            var reader = new FileReader();
+			//读取图片
+			reader.readAsDataURL(file.files[0]);
+			//onload该事件在读取操作完成时触发
+            reader.onload = function (evt) {
+                $.post(
+					//上传的路径
+					"imgLoad.php",
+					{imgbase64: evt.target.result},
+					function(rs){
+						//将图片显示再界面上
+						$('#uploaderFiles').html(
+						'<li class="weui-uploader__file"' + 
+						'style="background-image:url(' + evt.target.result + ')"></li>'
+						);
+               //
+			   var obj=$.parseJSON(rs);
+			   alert(obj.msg);
+					}
+				);
+			};
+             
+		}
+	}
+	</script>
+	</body>
+</html>
+
