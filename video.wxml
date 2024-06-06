@@ -1,0 +1,20 @@
+<!--pages/vido/vido.wxml-->
+<view class="video-list" wx:for="{{movieList}}" wx:key="user">
+<view class="video-title">标题：{{item.title}}</view>
+<view class="video-time"> 时间：{{item.create_time}}</view>
+<video src="{{item.src}}" object-Fit="fill"></video>
+</view>
+<wxs module="formmatData">
+module.exports=function(timestamp){
+  var date =getDate(timestamp)
+  var y=date.getFullYear()
+  var m= date.getMonth()+1
+  var d=date.getDate()
+  var h=date.getHours()
+  var i=date.getMinutes()
+  var s=date.getSecondes()
+  return y+'-'+m+'-'+d+'-'+h+':'+i+':'+s;
+}
+</wxs>
+
+
