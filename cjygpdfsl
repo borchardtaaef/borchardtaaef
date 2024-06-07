@@ -1,0 +1,37 @@
+<template>
+  <div>
+    <button @click="generatePDF">Generate PDF</button>
+  </div>
+</template>
+ 
+<script>
+import jsPDF from 'jspdf';
+ 
+export default {
+  methods: {
+    generatePDF() {
+      // 创建一个PDF实例
+      const pdf = new jsPDF();
+ 
+      // 添加内容
+      pdf.text('Hello world!', 10, 10);
+ 
+       // 添加图像
+       pdf.addImage('path/to/image.jpg', 'JPEG', 10, 10, 50, 50);
+ 
+        // 添加矩形
+        pdf.rect(10, 10, 50, 30);
+ 
+        // 添加圆形
+        pdf.circle(80, 25, 20);
+ 
+        // 添加文本和链接
+        pdf.textWithLink('Click me', 10, 10, { url: 'https://example.com' });
+ 
+ 
+      // 保存为PDF文件
+      pdf.save('example.pdf');
+    },
+  },
+};
+</script>
