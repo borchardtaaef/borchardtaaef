@@ -1,0 +1,17 @@
+wx.login({
+  success (res) {
+    if (res.code) {
+      //发起网络请求获取openid，一般是访问后端封装好的接口，也可以通过访问微信官方接口获取
+      uni.request({
+         url: '后端接口地址,获取openid',
+         method: 'GET',
+         success(res) {
+           //获取openid：用户真实唯一id进行保存
+           console.log(res.data.openid)
+        }
+      })
+    } else {
+      console.log('登录失败！' + res.errMsg)
+    }
+  }
+})
