@@ -1,0 +1,38 @@
+try:
+        context = _create_unverified_context()  # 屏蔽ssl证书
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
+        url = 'https://movie.douban.com/j/chart/top_list?type=' + str(typeId) + '&interval_id=100:90&action=unwatched&start=0&limit=' + str(movie_count)
+        req = urllib.request.Request(url=url, headers=headers)
+        f = urllib.request.urlopen(req, context=context)
+        response = f.read()
+        jsonData = loads(response)  # 将json转为python对象
+
+        res_list = []
+        for subData in jsonData:  # 依次对每部电影进行操作
+            if (float(subData['rating'][0]) >= float(rating)) and (float(subData['vote_count']) >= float(vote_count)):
+                sub_list= []
+                sub_list.append(subData['title'])
+                sub_list.append(subData['rating'][0])
+                sub_list.append(subData['rank'])
+                sub_list.append(subData['vote_count'])
+                res_list.append(sub_list)
+
+        for data in res_list:
+            print(data)
+
+        return [res_list, jsonData]
+
+    except Exception as ex:
+        err_str = "出现未知异常：{}".format(ex)
+        return [err_str]
+
+
+
+
+
+def get_url_data_in_keyWord(key_word):
+    """
+    从关键字获取电影数据
+    :param key_word:
+    :return:
+    """
