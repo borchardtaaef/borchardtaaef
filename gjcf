@@ -1,0 +1,22 @@
+import pygame
+import cv2
+import numpy as np
+from tkinter import filedialog,Tk
+import cvzone
+from cvzone.SelfiSegmentationModule import SelfiSegmentation
+ 
+segmentor = SelfiSegmentation(model=0)
+ 
+# 初始化 Pygame 和 OpenCV
+pygame.init()
+ 
+pygame.display.set_caption("background changer")
+ 
+# 设置窗口大小
+screen = pygame.display.set_mode((1280, 480))
+ 
+bgPath="dq.jpg"
+def getBackGround():
+    background=cv2.imread(bgPath)
+    return cv2.resize(background, (640, 480))
+ 
