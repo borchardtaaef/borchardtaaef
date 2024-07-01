@@ -1,0 +1,37 @@
+/******************************************************************
+* @projectName   musicplayer
+* @brief         mainwindow.h
+* @author        混分巨兽龙某某
+* @email         1178305328@qq.com
+*******************************************************************/
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+ 
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+#include <QPushButton>
+#include <QSlider>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QListWidget>
+#include <QLabel>
+#include <QSpacerItem>
+#include <QDebug>
+ 
+/* 媒体信息结构体 */
+struct MediaObjectInfo {
+    /* 用于保存歌曲文件名 */
+    QString fileName;
+    /* 用于保存歌曲文件路径 */
+    QString filePath;
+};
+ 
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+ 
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+ 
