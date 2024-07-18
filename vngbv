@@ -1,0 +1,30 @@
+import requests
+import logging
+import time
+ 
+logging.basicConfig(filename='crawler.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+ 
+def fetch_data_with_retry(url, max_retry=3):
+    retries = 0
+    while retries < max_retry:
+        try:
+            logging.info(f"Fetching data from {url}, attempt {retries + 1}")
+            response = requests.get(url)
+            response.raise_for_status()  # 检查响应状态码
+            return response.text
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Request error: {str(e)}")
+            retries += 1
+            if retries < max_retry:
+                logging.info(f"Retrying in 5 seconds...")
+                time.sleep(5)
+            else:
+                logging.error("Max retries exceeded.")
+                raise
+ 
+# 调用示例
+try:
+    data = fetch_data_with_retry('http://example.com')
+    # 处理获取的数据
+except Exception as e:
+    logging.error(f"Failed to fetch data: {str(e)}")
