@@ -1,0 +1,25 @@
+        Scroll() {
+          Row() {
+            Text('Text1')
+              .fontSize(26)
+              .size({width: 180, height: 90})
+              .backgroundColor('#aabbcc')
+            Text('Text2')
+              .fontSize(26)
+              .size({width: 180, height: 90})
+              .backgroundColor('#bbccaa')
+            Text('Text3')
+              .fontSize(26)
+              .size({width: 180, height: 90})
+              .backgroundColor('#ccaabb')
+            Text('Text4')
+              .fontSize(26)
+              .size({width: 180, height: 90})
+              .backgroundColor('#abcabc')
+          }
+          .height("100%")
+        }
+        .scrollable(ScrollDirection.Horizontal)// 设置滚动条水平方向滚动
+        .width(230)
+        .height(170)
+        .backgroundColor(Color.Pink)
